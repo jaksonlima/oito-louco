@@ -26,9 +26,13 @@ const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export const theme = createTheme({
-  type: "dark",
-  theme: {
-    fonts: { sans: poppins.style.fontFamily },
-  },
-});
+export type Theme = "dark" | "light";
+
+export const buildTheme = (themeMode: Theme = "dark") => {
+  return createTheme({
+    type: themeMode,
+    theme: {
+      fonts: { sans: poppins.style.fontFamily },
+    },
+  });
+};

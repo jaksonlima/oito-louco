@@ -1,12 +1,14 @@
 import type { AppProps } from "next/app";
-import { NextUIProvider } from "@nextui-org/react";
 
-import { theme } from "@/src/configuration/themeConfig";
+import { NextUIProviderCustom } from "@/src/context/NextUIProviderContext";
+import { SnackbarProvider } from "notistack";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <NextUIProvider theme={theme}>
-      <Component {...pageProps} />
-    </NextUIProvider>
+    <NextUIProviderCustom>
+      <SnackbarProvider dense autoHideDuration={9000} maxSnack={8}>
+        <Component {...pageProps} />
+      </SnackbarProvider>
+    </NextUIProviderCustom>
   );
 }
