@@ -8,6 +8,7 @@ import {
   Row,
   Spacer,
   Text,
+  useTheme,
 } from "@nextui-org/react";
 
 import { Payer } from "./Home";
@@ -36,6 +37,7 @@ function handlePaletteWeithPoints(points: number): string {
 
 const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
   const [points, setPoints] = useState<number>(0);
+  const { isDark } = useTheme();
 
   const totalPoints = Number(payer.points ?? 0);
 
@@ -44,17 +46,10 @@ const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
       <Card css={{ maxW: "222px", h: "250px" }}>
         <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
           <Col>
-            <Text
-              size={12}
-              weight="bold"
-              transform="uppercase"
-              color="#ffffffAA"
-            >
+            <Text size={12} weight="bold" transform="uppercase">
               #{payer?.id}
             </Text>
-            <Text h3 color="black">
-              {payer.name}
-            </Text>
+            <Text h3>{payer.name}</Text>
           </Col>
           <Col
             css={{
@@ -87,7 +82,9 @@ const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
         </Card.Header>
         <Card.Body css={{ p: 0 }}>
           <Card.Image
-            src="https://source.unsplash.com/random/?nature"
+            src={`https://source.unsplash.com/random/?nature,${
+              isDark ? "night" : "day"
+            }`}
             width="100%"
             height="100%"
             objectFit="cover"
@@ -107,7 +104,6 @@ const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
           <Row>
             <Col>
               <Text
-                color="#000000"
                 size={18}
                 css={{ fontWeight: "$bold", display: "inline-flex", gap: 8 }}
               >

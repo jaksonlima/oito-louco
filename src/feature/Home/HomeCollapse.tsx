@@ -129,7 +129,7 @@ function HomeCollapse({
           </Collapse>
           <Collapse
             title="Histórico"
-            subtitle="Vejá um relatório completo das últimas partidas."
+            subtitle="Relatório completo das últimas partidas."
           >
             <div>
               <Text>Deseja limpar histórico de partidas ?</Text>
@@ -161,11 +161,9 @@ function HomeCollapse({
                     const endDate = new Date(end).toLocaleString("pt-BR");
                     const playersSelected = players as Payers;
 
-                    playersSelected.players;
-
                     return (
                       <>
-                        <Collapse title={endDate}>
+                        <Collapse key={playersSelected.end} title={endDate}>
                           <Table
                             aria-label="Example table with static content"
                             css={{

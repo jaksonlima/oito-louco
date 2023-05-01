@@ -135,7 +135,9 @@ function Home() {
               </div>
             }
           />
-          <Spacer y={1} />
+        </Container>
+        <Spacer y={1} />
+        <Container fluid>
           <Grid.Container gap={2} justify="center">
             {players.players
               .sort((a: Payer, b: Payer) => (a.name < b.name ? -1 : 0))
@@ -148,8 +150,8 @@ function Home() {
                 />
               ))}
           </Grid.Container>
-          <Spacer y={1} />
         </Container>
+        <Spacer y={1} />
       </NavBar>
     </>
   );
@@ -194,4 +196,4 @@ const UserIcon = ({
   );
 };
 
-export { Home };
+export default Home;

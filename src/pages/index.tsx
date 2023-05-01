@@ -1,6 +1,9 @@
 import Head from "next/head";
+import dynamic from "next/dynamic";
 
-import { Home } from "../feature/Home/Home";
+const DynamicHome = dynamic(() => import("../feature/Home/Home"), {
+  ssr: false,
+});
 
 export default function IndexHome() {
   return (
@@ -11,7 +14,7 @@ export default function IndexHome() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Home />
+      <DynamicHome />
     </>
   );
 }

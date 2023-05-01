@@ -15,12 +15,19 @@ function NavModalRegras() {
         {...bindings}
       >
         <Modal.Header>
-          <Text id="modal-title" size={18}>
+          <Text b id="modal-title" size={18}>
             Regras
           </Text>
         </Modal.Header>
         <Modal.Body>
-          <Text id="modal-description">Autores:</Text>
+          <Text id="modal-description">Início 3 cartas;</Text>
+          <Text id="modal-description">Limite de pontos 100;</Text>
+          <Text id="modal-description">A: pula jogador;</Text>
+          <Text id="modal-description">Q: volta jogo.</Text>
+          <Text id="modal-description">
+            8: vale 20 pontos final de partida;
+          </Text>
+          <Text id="modal-description">7: compra 3, acumulativo;</Text>
         </Modal.Body>
         <Modal.Footer>
           <Button auto flat color="error" onPress={() => setVisible(false)}>
