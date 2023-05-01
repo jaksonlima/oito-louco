@@ -10,7 +10,7 @@ function NavModalDesenvolvidoPor() {
   return (
     <div>
       <Button auto color="warning" flat onPress={handler}>
-        Desenvolvido
+        Desenvolvido por
       </Button>
       <Modal
         closeButton
