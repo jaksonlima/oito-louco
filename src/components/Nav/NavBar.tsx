@@ -45,9 +45,11 @@ function NavBar({ children }: PropsWithChildren) {
             <Navbar.Link color="inherit" href="#">
               <NavModalRegras />
             </Navbar.Link>
-            <Navbar.Item>
+            <Navbar.Item hideIn="xs">
               <NavModalDesenvolvidoPor />
             </Navbar.Item>
+          </Navbar.Content>
+          <Navbar.Content>
             <Navbar.Item>
               <NavTheme />
             </Navbar.Item>
