@@ -82,9 +82,7 @@ const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
         </Card.Header>
         <Card.Body css={{ p: 0 }}>
           <Card.Image
-            src={`https://source.unsplash.com/random/?nature,${
-              isDark ? "night" : "day"
-            }`}
+            src='https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?q=80&w=2730&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
             width="100%"
             height="100%"
             objectFit="cover"
