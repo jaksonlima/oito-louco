@@ -29,7 +29,7 @@ function NavBar({ children }: PropsWithChildren) {
         <Navbar shouldHideOnScroll isBordered={isDark} variant="sticky">
           <Navbar.Brand>
             <Image
-              src="/poker-3-512x512.png"
+              src="/poker-3.jpg"
               alt="card"
               width={50}
               height={50}
