@@ -8,6 +8,7 @@ import capitalize from "lodash.capitalize";
 import { HomeCollapse } from "./HomeCollapse";
 import { HomeCart } from "./HomeCart";
 import { useSnackbar } from "notistack";
+import { Funny } from "@/src/components/Funny";
 
 export type Payer = {
   id?: string;
@@ -22,6 +23,10 @@ export type Payers = {
 
 function Home() {
   const [players, setPlayers] = useState<Payers>({ players: [], end: null });
+  const [playerLarge, setPlayerLarge] = useState<Payer>();
+  const [playerFunny, setPlayerFunny] = useState<Payer>();
+
+  const [funnyOpen, setFunnyOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const {
     register,
@@ -65,6 +70,21 @@ function Home() {
     enqueueSnackbar(`Pontos: ${points} adicionados para ${data.name}`, {
       variant: "info",
     });
+
+    if (data.points >= 100) {
+      setFunnyOpen(true);
+
+      const playersLarge = players.players
+        .filter((play) => play.points >= 100)
+        .filter((play) => play.id !== data.id)
+        .sort((a: Payer, b: Payer) => (a.points < b.points ? 0 : -1));
+
+      if (playersLarge.length > 0) {
+        setPlayerLarge(playersLarge[0]);
+      }
+
+      setPlayerFunny(data);
+    }
   }
 
   function removePlayers(data: Payer) {
@@ -90,6 +110,13 @@ function Home() {
 
   return (
     <>
+      <Funny
+        visible={funnyOpen}
+        setVisible={setFunnyOpen}
+        playerLarge={playerLarge}
+        playerFunny={playerFunny}
+      />
+
       <NavBar>
         <Container xs>
           <HomeCollapse

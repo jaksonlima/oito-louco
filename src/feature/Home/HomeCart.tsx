@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -12,6 +12,7 @@ import {
 } from "@nextui-org/react";
 
 import { Payer } from "./Home";
+import { Funny } from "@/src/components/Funny";
 
 type CardProps = {
   payer: Payer;
@@ -35,8 +36,16 @@ function handlePaletteWeithPoints(points: number): string {
   return paletteWeithPoints[16];
 }
 
+function selectImgage(isDark: boolean | undefined) {
+  if (isDark) {
+    return `dark.jpg`;
+  }
+  return `/light.jpg`;
+}
+
 const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
   const [points, setPoints] = useState<number>(0);
+
   const { isDark } = useTheme();
 
   const totalPoints = Number(payer.points ?? 0);
@@ -82,7 +91,7 @@ const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
         </Card.Header>
         <Card.Body css={{ p: 0 }}>
           <Card.Image
-            src='https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?q=80&w=2730&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            src={selectImgage(isDark)}
             width="100%"
             height="100%"
             objectFit="cover"
@@ -122,7 +131,8 @@ const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
                 bordered
                 placeholder="Ponto"
                 onBlur={(env) => {
-                  setPoints(Number(env.target.value));
+                  const points = Number(env.target.value);
+                  setPoints(points);
                 }}
               />
             </Col>
