@@ -1,29 +1,42 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, Button, Text } from "@nextui-org/react";
 
 import { PlaySound } from "./PlaySound";
 import { Payer } from "../feature/Home/Home";
+import { PlayVideo } from "./PlayVideo";
 
 interface FunnyProps {
   setVisible: (value: boolean) => void;
   visible: boolean;
-  playerFunny: Payer | undefined;
-  playerLarge: Payer | undefined;
+  playerFunny: Payer | undefined | null;
+  playerLarge: Payer | undefined | null;
+  playerWinner: Payer | undefined | null;
 }
 
-export function Funny({
+interface FunnyModal {
+  setVisible: (value: boolean) => void;
+  visible: boolean;
+  playerFunny: Payer | undefined | null;
+  playerLarge: Payer | undefined | null;
+}
+
+interface WinnerModal {
+  setVisible: (value: boolean) => void;
+  visible: boolean;
+  playerWinner: Payer | undefined | null;
+}
+
+function FunnyModal({
   visible,
   setVisible,
   playerFunny,
   playerLarge,
-}: FunnyProps) {
+}: FunnyModal) {
   const closeHandler = () => {
     setVisible(false);
   };
 
   function handleFunnyMessage() {
-    console.log({ playerFunny, playerLarge });
-
     if (!playerLarge && playerFunny) {
       return `Parabéns, você é o primeiro Patchon, ${playerFunny.name} 🥲`;
     }
@@ -51,22 +64,22 @@ export function Funny({
       <Modal
         closeButton
         blur
+        width="600px"
         aria-labelledby="modal-title"
         open={visible}
         onClose={closeHandler}
       >
         <Modal.Header>
-          <Text id="modal-title" size={18}>
+          <Text id="modal-title" size={24}>
             😂
-            <Text b size={18}>
+            <Text b size={24}>
               Patchon
             </Text>
           </Text>
         </Modal.Header>
         <Modal.Body>
           <PlaySound />
-
-          <Text id="modal-title" size={18}>
+          <Text id="modal-title" size={24}>
             {handleFunnyMessage()}
           </Text>
         </Modal.Body>
@@ -77,5 +90,73 @@ export function Funny({
         </Modal.Footer>
       </Modal>
     </div>
+  );
+}
+
+function WinnerModal({ visible, setVisible, playerWinner }: WinnerModal) {
+  const closeHandler = () => {
+    setVisible(false);
+  };
+
+  return (
+    <div>
+      <Modal
+        closeButton
+        blur
+        width="640px"
+        aria-labelledby="modal-title"
+        open={visible}
+        onClose={closeHandler}
+      >
+        <Modal.Header css={{ gap: "$10" }}>
+          <Text id="modal-title" size={24}>
+            🙅🏻‍♂️🙅🏻‍♀️ Winn
+          </Text>
+          <Text b size={24}>
+            😎 {playerWinner?.name} 🥳
+          </Text>
+        </Modal.Header>
+        <Modal.Body>
+          <PlayVideo />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button auto flat color="error" onPress={closeHandler}>
+            Fechar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+}
+
+export function Funny({
+  visible,
+  setVisible,
+  playerFunny,
+  playerLarge,
+  playerWinner,
+}: FunnyProps) {
+  return (
+    <>
+      {playerWinner ? (
+        <>
+          {" "}
+          <WinnerModal
+            visible={visible}
+            setVisible={setVisible}
+            playerWinner={playerWinner}
+          />
+        </>
+      ) : (
+        <>
+          <FunnyModal
+            visible={visible}
+            setVisible={setVisible}
+            playerFunny={playerFunny}
+            playerLarge={playerLarge}
+          />
+        </>
+      )}
+    </>
   );
 }

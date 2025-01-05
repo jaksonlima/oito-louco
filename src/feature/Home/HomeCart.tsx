@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Card,
@@ -12,7 +12,6 @@ import {
 } from "@nextui-org/react";
 
 import { Payer } from "./Home";
-import { Funny } from "@/src/components/Funny";
 
 type CardProps = {
   payer: Payer;
@@ -36,14 +35,14 @@ function handlePaletteWeithPoints(points: number): string {
   return paletteWeithPoints[16];
 }
 
-function selectImgage(isDark: boolean | undefined) {
+function selectImage(isDark: boolean | undefined) {
   if (isDark) {
-    return `dark.jpg`;
+    return `/dark.jpg`;
   }
   return `/light.jpg`;
 }
 
-const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
+export const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
   const [points, setPoints] = useState<number>(0);
 
   const { isDark } = useTheme();
@@ -52,13 +51,13 @@ const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
 
   return (
     <Grid>
-      <Card css={{ maxW: "222px", h: "250px" }}>
+      <Card css={{ maxW: "300px", h: "350px" }}>
         <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
           <Col>
             <Text size={12} weight="bold" transform="uppercase">
               #{payer?.id}
             </Text>
-            <Text h3>{payer.name}</Text>
+            <Text h2>{payer.name}</Text>
           </Col>
           <Col
             css={{
@@ -89,9 +88,9 @@ const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
             </Button>
           </Col>
         </Card.Header>
-        <Card.Body css={{ p: 0 }}>
+        <Card.Body css={{ padding: 0 }}>
           <Card.Image
-            src={selectImgage(isDark)}
+            src={selectImage(isDark)}
             width="100%"
             height="100%"
             objectFit="cover"
@@ -102,8 +101,6 @@ const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
           isBlurred
           css={{
             position: "absolute",
-            bgBlur: "#ffffff66",
-            borderTop: "$borderWeights$light solid rgba(255, 255, 255, 0.2)",
             bottom: 0,
             zIndex: 1,
           }}
@@ -111,13 +108,13 @@ const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
           <Row>
             <Col>
               <Text
-                size={18}
+                size={24}
                 css={{ fontWeight: "$bold", display: "inline-flex", gap: 8 }}
               >
                 Pontos:
                 <Text
                   color={handlePaletteWeithPoints(totalPoints)}
-                  size={18}
+                  size={24}
                   css={{ fontWeight: "$bold" }}
                 >
                   {totalPoints}
@@ -130,7 +127,8 @@ const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
                 status="error"
                 bordered
                 placeholder="Ponto"
-                onBlur={(env) => {
+                size="xl"
+                onChange={(env) => {
                   const points = Number(env.target.value);
                   setPoints(points);
                 }}
@@ -149,7 +147,7 @@ const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
                 >
                   <Text
                     css={{ color: "inherit" }}
-                    size={10}
+                    size={16}
                     weight="bold"
                     transform="uppercase"
                   >
@@ -164,5 +162,3 @@ const HomeCart = ({ payer, addPoints, removePlayer }: CardProps) => {
     </Grid>
   );
 };
-
-export { HomeCart };

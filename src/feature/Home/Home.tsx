@@ -1,7 +1,7 @@
 import { NavBar } from "@/src/components/Nav/NavBar";
 import { revisedRandId } from "@/src/utils/uuid";
 import { Container, Input, Spacer, Button, Grid } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import capitalize from "lodash.capitalize";
 
@@ -23,8 +23,9 @@ export type Payers = {
 
 function Home() {
   const [players, setPlayers] = useState<Payers>({ players: [], end: null });
-  const [playerLarge, setPlayerLarge] = useState<Payer>();
-  const [playerFunny, setPlayerFunny] = useState<Payer>();
+  const [playerLarge, setPlayerLarge] = useState<Payer | null>();
+  const [playerFunny, setPlayerFunny] = useState<Payer | null>();
+  const [playerWinner, setPlayerWinner] = useState<Payer | null>();
 
   const [funnyOpen, setFunnyOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -46,6 +47,7 @@ function Home() {
     };
 
     setPlayers(newPlayers);
+    resetFunny();
 
     enqueueSnackbar(`Jogador: ${data.name} adicionado a partida`, {
       variant: "success",
@@ -71,19 +73,33 @@ function Home() {
       variant: "info",
     });
 
-    if (data.points >= 100) {
+    addFunny(data);
+  }
+
+  function addFunny(payer: Payer) {
+    const playersLarge = players.players.filter((play) => play.points >= 100);
+
+    if (players.players.length - playersLarge.length === 1) {
+      const playerWinner = players.players.filter((play) => play.points < 100);
+
+      if (playerWinner && playerWinner[0]) {
+        setPlayerWinner(playerWinner[0]);
+      }
+    }
+
+    if (payer.points >= 100) {
       setFunnyOpen(true);
 
       const playersLarge = players.players
         .filter((play) => play.points >= 100)
-        .filter((play) => play.id !== data.id)
+        .filter((play) => play.id !== payer.id)
         .sort((a: Payer, b: Payer) => (a.points < b.points ? 0 : -1));
 
       if (playersLarge.length > 0) {
         setPlayerLarge(playersLarge[0]);
       }
 
-      setPlayerFunny(data);
+      setPlayerFunny(payer);
     }
   }
 
@@ -97,9 +113,17 @@ function Home() {
       };
     });
 
+    resetFunny();
+
     enqueueSnackbar(`Jogador: ${data.name} removido da partida`, {
       variant: "warning",
     });
+  }
+
+  function resetFunny() {
+    setPlayerLarge(null);
+    setPlayerFunny(null);
+    setPlayerWinner(null);
   }
 
   const onSubmit = (data: Payer) => {
@@ -115,6 +139,7 @@ function Home() {
         setVisible={setFunnyOpen}
         playerLarge={playerLarge}
         playerFunny={playerFunny}
+        playerWinner={playerWinner}
       />
 
       <NavBar>

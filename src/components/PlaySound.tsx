@@ -9,7 +9,7 @@ export const PlaySound: React.FC = () => {
     }
   };
 
-  setInterval(playSound, 5000);
+  setInterval(playSound, 6000);
 
   useEffect(() => {
     playSound();

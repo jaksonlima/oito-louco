@@ -8,7 +8,7 @@ const mobileWidth = 768;
 const anchorOrigin = (width: number | undefined): SnackbarOrigin => {
   if (width && width <= mobileWidth)
     return { horizontal: "right", vertical: "top" };
-  return { horizontal: "left", vertical: "bottom" };
+  return { horizontal: "right", vertical: "top" };
 };
 
 function autoHideDuration(width: number | undefined) {
