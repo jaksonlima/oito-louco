@@ -2,28 +2,28 @@ import React from "react";
 import { Modal, Button, Text } from "@nextui-org/react";
 
 import { PlaySound } from "./PlaySound";
-import { Payer } from "../feature/Home/Home";
+import { Player } from "../feature/Home/Home";
 import { PlayVideo } from "./PlayVideo";
 
 interface FunnyProps {
   setVisible: (value: boolean) => void;
   visible: boolean;
-  playerFunny: Payer | undefined | null;
-  playerLarge: Payer | undefined | null;
-  playerWinner: Payer | undefined | null;
+  playerFunny: Player | undefined | null;
+  playerLarge: Player | undefined | null;
+  playerWinner: Player | undefined | null;
 }
 
 interface FunnyModal {
   setVisible: (value: boolean) => void;
   visible: boolean;
-  playerFunny: Payer | undefined | null;
-  playerLarge: Payer | undefined | null;
+  playerFunny: Player | undefined | null;
+  playerLarge: Player | undefined | null;
 }
 
 interface WinnerModal {
   setVisible: (value: boolean) => void;
   visible: boolean;
-  playerWinner: Payer | undefined | null;
+  playerWinner: Player | undefined | null;
 }
 
 function FunnyModal({

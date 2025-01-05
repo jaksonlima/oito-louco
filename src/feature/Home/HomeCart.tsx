@@ -11,12 +11,12 @@ import {
   useTheme,
 } from "@nextui-org/react";
 
-import { Payer } from "./Home";
+import { Player } from "./Home";
 
 type CardProps = {
-  payer: Payer;
-  addPoints: (data: Payer, points: number) => void;
-  removePlayer: (data: Payer) => void;
+  payer: Player;
+  addPoints: (data: Player, points: number) => void;
+  removePlayer: (data: Player) => void;
 };
 
 const paletteWeithPoints = {

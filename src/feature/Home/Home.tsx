@@ -9,23 +9,24 @@ import { HomeCollapse } from "./HomeCollapse";
 import { HomeCart } from "./HomeCart";
 import { useSnackbar } from "notistack";
 import { Funny } from "@/src/components/Funny";
+import { PlayerTable } from "@/src/components/PlayerTable";
 
-export type Payer = {
+export type Player = {
   id?: string;
   name: string;
   points: number;
 };
 
-export type Payers = {
-  players: Payer[];
+export type Players = {
+  players: Player[];
   end?: string | null;
 };
 
 function Home() {
-  const [players, setPlayers] = useState<Payers>({ players: [], end: null });
-  const [playerLarge, setPlayerLarge] = useState<Payer | null>();
-  const [playerFunny, setPlayerFunny] = useState<Payer | null>();
-  const [playerWinner, setPlayerWinner] = useState<Payer | null>();
+  const [players, setPlayers] = useState<Players>({ players: [], end: null });
+  const [playerLarge, setPlayerLarge] = useState<Player | null>();
+  const [playerFunny, setPlayerFunny] = useState<Player | null>();
+  const [playerWinner, setPlayerWinner] = useState<Player | null>();
 
   const [funnyOpen, setFunnyOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -35,13 +36,13 @@ function Home() {
     reset,
     clearErrors,
     formState: { errors },
-  } = useForm<Payer>();
+  } = useForm<Player>();
 
-  function addPlayer(data: Payer) {
+  function addPlayer(data: Player) {
     data.id = revisedRandId();
     data.name = capitalize(data.name);
 
-    const newPlayers: Payers = {
+    const newPlayers: Players = {
       ...players,
       players: [data, ...players.players],
     };
@@ -54,7 +55,7 @@ function Home() {
     });
   }
 
-  function addPoints(data: Payer, points: number) {
+  function addPoints(data: Player, points: number) {
     setPlayers((old) => {
       const newPlayers = old.players.map((it) => {
         if (it.id === data.id) {
@@ -76,7 +77,7 @@ function Home() {
     addFunny(data);
   }
 
-  function addFunny(payer: Payer) {
+  function addFunny(payer: Player) {
     const playersLarge = players.players.filter((play) => play.points >= 100);
 
     if (players.players.length - playersLarge.length === 1) {
@@ -93,7 +94,7 @@ function Home() {
       const playersLarge = players.players
         .filter((play) => play.points >= 100)
         .filter((play) => play.id !== payer.id)
-        .sort((a: Payer, b: Payer) => (a.points < b.points ? 0 : -1));
+        .sort((a: Player, b: Player) => (a.points < b.points ? 0 : -1));
 
       if (playersLarge.length > 0) {
         setPlayerLarge(playersLarge[0]);
@@ -103,7 +104,7 @@ function Home() {
     }
   }
 
-  function removePlayers(data: Payer) {
+  function removePlayers(data: Player) {
     setPlayers((old) => {
       const newPlayers = old.players.filter((it) => it.id !== data.id);
 
@@ -126,7 +127,13 @@ function Home() {
     setPlayerWinner(null);
   }
 
-  const onSubmit = (data: Payer) => {
+  function orderPlayers() {
+    return players.players.sort((a: Player, b: Player) =>
+      a.points < b.points ? 0 : -1
+    );
+  }
+
+  const onSubmit = (data: Player) => {
     addPlayer(data);
     reset();
     clearErrors();
@@ -191,9 +198,8 @@ function Home() {
         <Spacer y={1} />
         <Container fluid>
           <Grid.Container gap={2} justify="center">
-            {players.players
-              .sort((a: Payer, b: Payer) => (a.name < b.name ? -1 : 0))
-              .map((player) => (
+            <>
+              {orderPlayers().map((player) => (
                 <HomeCart
                   key={player.id}
                   payer={player}
@@ -201,9 +207,11 @@ function Home() {
                   removePlayer={removePlayers}
                 />
               ))}
+            </>
           </Grid.Container>
         </Container>
         <Spacer y={1} />
+        <PlayerTable />
       </NavBar>
     </>
   );

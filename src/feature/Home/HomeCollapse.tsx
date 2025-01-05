@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Collapse, Grid, Spacer, Table, Text } from "@nextui-org/react";
 
-import { Payers } from "./Home";
+import { Players } from "./Home";
 import { HISTORY_PLAYERS } from "@/src/utils/env";
 import { instance } from "@/src/utils/localStorage";
 import { useSnackbar } from "notistack";
@@ -10,7 +10,7 @@ function getHistoryPlayers() {
   return JSON.parse(instance()?.getItem(HISTORY_PLAYERS) ?? "{}");
 }
 
-function addHistoryPlayers(endDate: string, players: Payers) {
+function addHistoryPlayers(endDate: string, players: Players) {
   const localStorage = instance();
 
   const newHistoryPlayers = {
@@ -29,8 +29,8 @@ function removeHistoryPlayers() {
 
 type CollapseAppProps = {
   collapsePlayer: JSX.Element;
-  players: Payers;
-  setPlayers: (data: Payers) => void;
+  players: Players;
+  setPlayers: (data: Players) => void;
 };
 
 function HomeCollapse({
@@ -74,7 +74,7 @@ function HomeCollapse({
 
                     addHistoryPlayers(endDate, players);
 
-                    const startPlayers: Payers = {
+                    const startPlayers: Players = {
                       end: null,
                       players: players.players.map((it) => {
                         it.points = 0;
@@ -159,7 +159,7 @@ function HomeCollapse({
                   .sort(([a], [b]) => (a > b ? -1 : 0))
                   .map(([end, players]) => {
                     const endDate = new Date(end).toLocaleString("pt-BR");
-                    const playersSelected = players as Payers;
+                    const playersSelected = players as Players;
 
                     return (
                       <>
