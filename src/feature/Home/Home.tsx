@@ -10,7 +10,7 @@ import { HomeCart } from "./HomeCart";
 import { useSnackbar } from "notistack";
 import { PlayerFunny } from "@/src/components/PlayerFunny";
 import { PlayerTable } from "@/src/components/PlayerTable";
-import { useWindowSize } from "@/src/hooks/useWindowSize";
+import { Hidden } from "@/src/components/Hidden";
 
 export type Player = {
   id?: string;
@@ -28,9 +28,6 @@ function Home() {
   const [playerLarge, setPlayerLarge] = useState<Player | null>();
   const [playerFunny, setPlayerFunny] = useState<Player | null>();
   const [playerWinner, setPlayerWinner] = useState<Player | null>();
-
-  const { width } = useWindowSize();
-  const isMobile = (width || 0) <= 960;
 
   const [funnyOpen, setFunnyOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -201,9 +198,9 @@ function Home() {
         </Container>
         <Container fluid>
           <Grid.Container>
-            <Grid hidden={isMobile}>
+            <Hidden>
               <PlayerTable players={orderPlayers()} />
-            </Grid>
+            </Hidden>
 
             <Grid xs>
               <Grid.Container gap={2} justify="center">
