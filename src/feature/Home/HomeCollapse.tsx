@@ -46,148 +46,172 @@ function HomeCollapse({
       <Grid style={{ width: "inherit" }}>
         <Collapse.Group bordered>
           <Collapse
-            title="Jogadores"
-            subtitle="Adicione mas jogadores a partida."
+            title="Configurações"
+            subtitle="Jogadores, configuração e históricos."
             expanded
           >
-            {collapsePlayer}
-          </Collapse>
-          <Collapse
-            title="Configuração"
-            subtitle="Ao confirmar será guardado em histórico."
-          >
-            <div>
-              <Text>Reiniciar e restaurar jogadores da última partida ?</Text>
-              <Spacer y={0.2} />
-              <Button rounded color="success" shadow style={{ margin: "7px" }}>
-                <Text
-                  css={{ color: "inherit" }}
-                  size={12}
-                  weight="bold"
-                  transform="uppercase"
-                  onClick={() => {
-                    if (players?.players?.length <= 0) return;
-
-                    const endDate = new Date().toJSON();
-
-                    players.end = endDate;
-
-                    addHistoryPlayers(endDate, players);
-
-                    const startPlayers: Players = {
-                      end: null,
-                      players: players.players.map((it) => {
-                        it.points = 0;
-                        return it;
-                      }),
-                    };
-
-                    setPlayers(startPlayers);
-
-                    enqueueSnackbar("Jogo reiniciado", { variant: "success" });
-                    enqueueSnackbar("Histórico salvo", { variant: "info" });
-                  }}
-                >
-                  Confirmar
-                </Text>
-              </Button>
-            </div>
-            <Spacer y={1} />
-            <div>
-              <Text>Finalizar partida ?</Text>
-              <Spacer y={0.2} />
-              <Button
-                rounded
-                color="warning"
-                shadow
-                style={{ margin: "7px" }}
-                onClick={() => {
-                  if (players?.players?.length <= 0) return;
-
-                  const endDate = new Date().toJSON();
-
-                  setPlayers({ players: [], end: null });
-
-                  players.end = endDate;
-
-                  addHistoryPlayers(endDate, players);
-
-                  enqueueSnackbar("Jogo finalizado", { variant: "warning" });
-                  enqueueSnackbar("Histórico salvo", { variant: "info" });
-                }}
-              >
-                <Text
-                  css={{ color: "inherit" }}
-                  size={12}
-                  weight="bold"
-                  transform="uppercase"
-                >
-                  Confirmar
-                </Text>
-              </Button>
-            </div>
-          </Collapse>
-          <Collapse
-            title="Histórico"
-            subtitle="Relatório completo das últimas partidas."
-          >
-            <div>
-              <Text>Deseja limpar histórico de partidas ?</Text>
-              <Spacer y={0.2} />
-              <Button rounded color="error" shadow style={{ margin: "7px" }}>
-                <Text
-                  css={{ color: "inherit" }}
-                  size={12}
-                  weight="bold"
-                  transform="uppercase"
-                  onClick={() => {
-                    removeHistoryPlayers();
-                    renderComponent(!_);
-                    enqueueSnackbar("Histórico de partidas limpo", {
-                      variant: "error",
-                    });
-                  }}
-                >
-                  Confirmar
-                </Text>
-              </Button>
-            </div>
             <Collapse.Group>
-              {typeof window !== "undefined" &&
-                localStorage &&
-                Object.entries(getHistoryPlayers())
-                  .sort(([a], [b]) => (a > b ? -1 : 0))
-                  .map(([end, players]) => {
-                    const endDate = new Date(end).toLocaleString("pt-BR");
-                    const playersSelected = players as Players;
+              <Collapse
+                title="Jogadores"
+                subtitle="Adicione mas jogadores a partida."
+                expanded
+              >
+                {collapsePlayer}
+              </Collapse>
+              <Collapse
+                title="Configuração"
+                subtitle="Ao confirmar será guardado em histórico."
+              >
+                <div>
+                  <Text>
+                    Reiniciar e restaurar jogadores da última partida ?
+                  </Text>
+                  <Spacer y={0.2} />
+                  <Button
+                    rounded
+                    color="success"
+                    shadow
+                    style={{ margin: "7px" }}
+                  >
+                    <Text
+                      css={{ color: "inherit" }}
+                      size={12}
+                      weight="bold"
+                      transform="uppercase"
+                      onClick={() => {
+                        if (players?.players?.length <= 0) return;
 
-                    return (
-                      <>
-                        <Collapse key={playersSelected.end} title={endDate}>
-                          <Table
-                            aria-label="Example table with static content"
-                            css={{
-                              height: "auto",
-                              minWidth: "100%",
-                            }}
-                          >
-                            <Table.Header>
-                              <Table.Column>Nome</Table.Column>
-                              <Table.Column>Pontos</Table.Column>
-                            </Table.Header>
-                            <Table.Body>
-                              {playersSelected.players?.map((player) => (
-                                <Table.Row key={player.id}>
-                                  <Table.Cell>{player.name}</Table.Cell>
-                                  <Table.Cell>{player.points}</Table.Cell>
-                                </Table.Row>
-                              ))}
-                            </Table.Body>
-                          </Table>
-                        </Collapse>
-                      </>
-                    );
-                  })}
+                        const endDate = new Date().toJSON();
+
+                        players.end = endDate;
+
+                        addHistoryPlayers(endDate, players);
+
+                        const startPlayers: Players = {
+                          end: null,
+                          players: players.players.map((it) => {
+                            it.points = 0;
+                            return it;
+                          }),
+                        };
+
+                        setPlayers(startPlayers);
+
+                        enqueueSnackbar("Jogo reiniciado", {
+                          variant: "success",
+                        });
+                        enqueueSnackbar("Histórico salvo", { variant: "info" });
+                      }}
+                    >
+                      Confirmar
+                    </Text>
+                  </Button>
+                </div>
+                <Spacer y={1} />
+                <div>
+                  <Text>Finalizar partida ?</Text>
+                  <Spacer y={0.2} />
+                  <Button
+                    rounded
+                    color="warning"
+                    shadow
+                    style={{ margin: "7px" }}
+                    onClick={() => {
+                      if (players?.players?.length <= 0) return;
+
+                      const endDate = new Date().toJSON();
+
+                      setPlayers({ players: [], end: null });
+
+                      players.end = endDate;
+
+                      addHistoryPlayers(endDate, players);
+
+                      enqueueSnackbar("Jogo finalizado", {
+                        variant: "warning",
+                      });
+                      enqueueSnackbar("Histórico salvo", { variant: "info" });
+                    }}
+                  >
+                    <Text
+                      css={{ color: "inherit" }}
+                      size={12}
+                      weight="bold"
+                      transform="uppercase"
+                    >
+                      Confirmar
+                    </Text>
+                  </Button>
+                </div>
+              </Collapse>
+              <Collapse
+                title="Histórico"
+                subtitle="Relatório completo das últimas partidas."
+              >
+                <div>
+                  <Text>Deseja limpar histórico de partidas ?</Text>
+                  <Spacer y={0.2} />
+                  <Button
+                    rounded
+                    color="error"
+                    shadow
+                    style={{ margin: "7px" }}
+                  >
+                    <Text
+                      css={{ color: "inherit" }}
+                      size={12}
+                      weight="bold"
+                      transform="uppercase"
+                      onClick={() => {
+                        removeHistoryPlayers();
+                        renderComponent(!_);
+                        enqueueSnackbar("Histórico de partidas limpo", {
+                          variant: "error",
+                        });
+                      }}
+                    >
+                      Confirmar
+                    </Text>
+                  </Button>
+                </div>
+                <Collapse.Group>
+                  {typeof window !== "undefined" &&
+                    localStorage &&
+                    Object.entries(getHistoryPlayers())
+                      .sort(([a], [b]) => (a > b ? -1 : 0))
+                      .map(([end, players]) => {
+                        const endDate = new Date(end).toLocaleString("pt-BR");
+                        const playersSelected = players as Players;
+
+                        return (
+                          <>
+                            <Collapse key={playersSelected.end} title={endDate}>
+                              <Table
+                                aria-label="Example table with static content"
+                                css={{
+                                  height: "auto",
+                                  minWidth: "100%",
+                                }}
+                              >
+                                <Table.Header>
+                                  <Table.Column>Nome</Table.Column>
+                                  <Table.Column>Pontos</Table.Column>
+                                </Table.Header>
+                                <Table.Body>
+                                  {playersSelected.players?.map((player) => (
+                                    <Table.Row key={player.id}>
+                                      <Table.Cell>{player.name}</Table.Cell>
+                                      <Table.Cell>{player.points}</Table.Cell>
+                                    </Table.Row>
+                                  ))}
+                                </Table.Body>
+                              </Table>
+                            </Collapse>
+                          </>
+                        );
+                      })}
+                </Collapse.Group>
+              </Collapse>
             </Collapse.Group>
           </Collapse>
         </Collapse.Group>

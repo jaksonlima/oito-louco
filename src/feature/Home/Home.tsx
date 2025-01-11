@@ -1,15 +1,16 @@
 import { NavBar } from "@/src/components/Nav/NavBar";
 import { revisedRandId } from "@/src/utils/uuid";
 import { Container, Input, Spacer, Button, Grid } from "@nextui-org/react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import capitalize from "lodash.capitalize";
 
 import { HomeCollapse } from "./HomeCollapse";
 import { HomeCart } from "./HomeCart";
 import { useSnackbar } from "notistack";
-import { Funny } from "@/src/components/Funny";
+import { PlayerFunny } from "@/src/components/Funny";
 import { PlayerTable } from "@/src/components/PlayerTable";
+import { Layout } from "../Layout";
 
 export type Player = {
   id?: string;
@@ -141,7 +142,7 @@ function Home() {
 
   return (
     <>
-      <Funny
+      <PlayerFunny
         visible={funnyOpen}
         setVisible={setFunnyOpen}
         playerLarge={playerLarge}
@@ -195,23 +196,29 @@ function Home() {
             }
           />
         </Container>
-        <Spacer y={1} />
-        <Container fluid>
-          <Grid.Container gap={2} justify="center">
-            <>
-              {orderPlayers().map((player) => (
-                <HomeCart
-                  key={player.id}
-                  payer={player}
-                  addPoints={addPoints}
-                  removePlayer={removePlayers}
-                />
-              ))}
-            </>
-          </Grid.Container>
-        </Container>
-        <Spacer y={1} />
-        <PlayerTable />
+
+        <Layout.Root>
+          <Layout.Left>
+            <PlayerTable players={orderPlayers()} />
+          </Layout.Left>
+
+          <Layout.Right>
+            <Container fluid>
+              <Grid.Container gap={2} justify="center">
+                <>
+                  {orderPlayers().map((player) => (
+                    <HomeCart
+                      key={player.id}
+                      payer={player}
+                      addPoints={addPoints}
+                      removePlayer={removePlayers}
+                    />
+                  ))}
+                </>
+              </Grid.Container>
+            </Container>
+          </Layout.Right>
+        </Layout.Root>
       </NavBar>
     </>
   );

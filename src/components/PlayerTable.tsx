@@ -1,56 +1,37 @@
-import { Table, useAsyncList, useCollator } from "@nextui-org/react";
+import { Table } from "@nextui-org/react";
 
-interface PlayerTableProps {}
+import { Player } from "../feature/Home/Home";
 
-export function PlayerTable() {
-  const collator = useCollator({ numeric: true });
-  async function load({ signal }) {
-    const res = await fetch("https://swapi.py4e.com/api/people/?search", {
-      signal,
-    });
-    const json = await res.json();
-    return {
-      items: json.results,
-    };
+interface PlayerTableProps {
+  players: Player[];
+}
+
+export function PlayerTable({ players }: PlayerTableProps) {
+  if (players.length <= 0) {
+    return <></>;
   }
-  async function sort({ items, sortDescriptor }) {
-    return {
-      items: items.sort((a, b) => {
-        let first = a[sortDescriptor.column];
-        let second = b[sortDescriptor.column];
-        let cmp = collator.compare(first, second);
-        if (sortDescriptor.direction === "descending") {
-          cmp *= -1;
-        }
-        return cmp;
-      }),
-    };
-  }
-  const list = useAsyncList({ load, sort });
+
   return (
     <Table
       aria-label="Example static collection table"
+      bordered
+      lined
       css={{
-        width: `400px`,
-        height: `500px`,
+        minWidth: "250px",
+        height: "auto",
       }}
-      sortDescriptor={list.sortDescriptor}
-      onSortChange={list.sort}
     >
       <Table.Header>
-        <Table.Column key="name" allowsSorting>
-          Name
-        </Table.Column>
-        <Table.Column key="height" allowsSorting>
-          Height
-        </Table.Column>
+        <Table.Column key="name">Name</Table.Column>
+        <Table.Column key="points">Pontos</Table.Column>
       </Table.Header>
-      <Table.Body items={list.items} loadingState={list.loadingState}>
-        {(item) => (
-          <Table.Row key={item.name}>
-            {(columnKey) => <Table.Cell>{item[columnKey]}</Table.Cell>}
+      <Table.Body css={{ fontSize: "x-large" }}>
+        {players.map((player) => (
+          <Table.Row key={player.id}>
+            <Table.Cell>{player.name}</Table.Cell>
+            <Table.Cell>{player.points}</Table.Cell>
           </Table.Row>
-        )}
+        ))}
       </Table.Body>
     </Table>
   );

@@ -129,7 +129,7 @@ function WinnerModal({ visible, setVisible, playerWinner }: WinnerModal) {
   );
 }
 
-export function Funny({
+export function PlayerFunny({
   visible,
   setVisible,
   playerFunny,
