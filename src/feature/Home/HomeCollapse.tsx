@@ -33,7 +33,7 @@ type CollapseAppProps = {
   setPlayers: (data: Players) => void;
 };
 
-function HomeCollapse({
+export function HomeCollapse({
   collapsePlayer,
   players,
   setPlayers,
@@ -46,19 +46,20 @@ function HomeCollapse({
       <Grid style={{ width: "inherit" }}>
         <Collapse.Group bordered>
           <Collapse
+            index={0}
             title="Configurações"
             subtitle="Jogadores, configuração e históricos."
-            expanded
           >
             <Collapse.Group>
               <Collapse
+                index={1}
                 title="Jogadores"
                 subtitle="Adicione mas jogadores a partida."
-                expanded
               >
                 {collapsePlayer}
               </Collapse>
               <Collapse
+                index={2}
                 title="Configuração"
                 subtitle="Ao confirmar será guardado em histórico."
               >
@@ -145,10 +146,11 @@ function HomeCollapse({
                 </div>
               </Collapse>
               <Collapse
+                index={3}
                 title="Histórico"
                 subtitle="Relatório completo das últimas partidas."
               >
-                <div>
+                <>
                   <Text>Deseja limpar histórico de partidas ?</Text>
                   <Spacer y={0.2} />
                   <Button
@@ -173,7 +175,7 @@ function HomeCollapse({
                       Confirmar
                     </Text>
                   </Button>
-                </div>
+                </>
                 <Collapse.Group>
                   {typeof window !== "undefined" &&
                     localStorage &&
@@ -219,5 +221,3 @@ function HomeCollapse({
     </Grid.Container>
   );
 }
-
-export { HomeCollapse };

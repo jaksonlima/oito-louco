@@ -8,9 +8,9 @@ import capitalize from "lodash.capitalize";
 import { HomeCollapse } from "./HomeCollapse";
 import { HomeCart } from "./HomeCart";
 import { useSnackbar } from "notistack";
-import { PlayerFunny } from "@/src/components/Funny";
+import { PlayerFunny } from "@/src/components/PlayerFunny";
 import { PlayerTable } from "@/src/components/PlayerTable";
-import { Layout } from "../Layout";
+import { useWindowSize } from "@/src/hooks/useWindowSize";
 
 export type Player = {
   id?: string;
@@ -28,6 +28,9 @@ function Home() {
   const [playerLarge, setPlayerLarge] = useState<Player | null>();
   const [playerFunny, setPlayerFunny] = useState<Player | null>();
   const [playerWinner, setPlayerWinner] = useState<Player | null>();
+
+  const { width } = useWindowSize();
+  const isMobile = (width || 0) <= 960;
 
   const [funnyOpen, setFunnyOpen] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -196,14 +199,13 @@ function Home() {
             }
           />
         </Container>
+        <Container fluid>
+          <Grid.Container>
+            <Grid hidden={isMobile}>
+              <PlayerTable players={orderPlayers()} />
+            </Grid>
 
-        <Layout.Root>
-          <Layout.Left>
-            <PlayerTable players={orderPlayers()} />
-          </Layout.Left>
-
-          <Layout.Right>
-            <Container fluid>
+            <Grid xs>
               <Grid.Container gap={2} justify="center">
                 <>
                   {orderPlayers().map((player) => (
@@ -216,9 +218,9 @@ function Home() {
                   ))}
                 </>
               </Grid.Container>
-            </Container>
-          </Layout.Right>
-        </Layout.Root>
+            </Grid>
+          </Grid.Container>
+        </Container>
       </NavBar>
     </>
   );
